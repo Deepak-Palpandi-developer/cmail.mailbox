@@ -1,6 +1,0 @@
-@Cmail.Mailbox.Api_HostAddress = http://localhost:5273
-
-GET {{Cmail.Mailbox.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
