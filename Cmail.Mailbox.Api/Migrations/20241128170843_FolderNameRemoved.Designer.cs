@@ -3,6 +3,7 @@ using System;
 using Cmail.Mailbox.Dmain.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Cmail.Mailbox.Api.Migrations
 {
     [DbContext(typeof(MailboxContext))]
-    partial class MailboxContextModelSnapshot : ModelSnapshot
+    [Migration("20241128170843_FolderNameRemoved")]
+    partial class FolderNameRemoved
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

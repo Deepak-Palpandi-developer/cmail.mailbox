@@ -49,9 +49,6 @@ public class MailboxBaseContext<T> : DbContext where T : DbContext
         entity.Property(e => e.IsRead)
             .HasDefaultValue(false);
 
-        entity.Property(e => e.FolderId)
-            .IsRequired();
-
         entity.Property(e => e.IsStarred)
             .HasDefaultValue(false);
 

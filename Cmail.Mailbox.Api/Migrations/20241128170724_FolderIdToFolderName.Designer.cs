@@ -3,6 +3,7 @@ using System;
 using Cmail.Mailbox.Dmain.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Cmail.Mailbox.Api.Migrations
 {
     [DbContext(typeof(MailboxContext))]
-    partial class MailboxContextModelSnapshot : ModelSnapshot
+    [Migration("20241128170724_FolderIdToFolderName")]
+    partial class FolderIdToFolderName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,6 +128,11 @@ namespace Cmail.Mailbox.Api.Migrations
                         .HasColumnType("character varying(30)")
                         .HasColumnName("deleted_ip")
                         .HasColumnOrder(110);
+
+                    b.Property<string>("FolderName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("folder_name");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean")
@@ -246,7 +254,7 @@ namespace Cmail.Mailbox.Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d930bb17-99b5-4f93-b1c8-b1a8a520563a"),
+                            Id = new Guid("d4db7ec0-7a48-492d-bebe-6688c8eba285"),
                             Description = "Folder for received emails",
                             DisplayOrder = 1,
                             IsActive = true,
@@ -255,7 +263,7 @@ namespace Cmail.Mailbox.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("0fcf6ae0-e704-4e89-8d11-56e019f1efa6"),
+                            Id = new Guid("5672767b-1012-4ba2-ba41-41bf8067761a"),
                             Description = "Folder for sent emails",
                             DisplayOrder = 2,
                             IsActive = true,
@@ -264,7 +272,7 @@ namespace Cmail.Mailbox.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("78df5801-c780-4ea6-a868-d82b92771715"),
+                            Id = new Guid("054b3eb4-08b0-4254-8654-42eed3c913d9"),
                             Description = "Folder for draft emails",
                             DisplayOrder = 3,
                             IsActive = true,
@@ -273,7 +281,7 @@ namespace Cmail.Mailbox.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d3832585-2b19-46d3-bd98-057895cbd093"),
+                            Id = new Guid("a4726ac4-893a-4a19-b0e3-bca2b41d1120"),
                             Description = "Folder for deleted emails",
                             DisplayOrder = 4,
                             IsActive = true,
@@ -282,7 +290,7 @@ namespace Cmail.Mailbox.Api.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d59c0872-c8c8-4bd8-bcfa-8091b8628ad1"),
+                            Id = new Guid("4e7248be-4bb3-422d-82e7-f9b9c2d3a774"),
                             Description = "Folder for archived emails",
                             DisplayOrder = 5,
                             IsActive = true,

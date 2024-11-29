@@ -1,13 +1,8 @@
 ﻿using Cgmail.Common.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cmail.Mailbox.Application.Dto.Attachment;
 
-public class EmailAttachmentDto: BaseDto
+public class EmailAttachmentDto : BaseDto
 {
     public string FileName { get; set; } = string.Empty;
     public long FileSize { get; set; }

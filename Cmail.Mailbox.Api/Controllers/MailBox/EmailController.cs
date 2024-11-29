@@ -1,5 +1,8 @@
 ﻿using Cgmail.Common.Exceptions;
+using Cgmail.Common.Helpers;
+using Cmail.Mailbox.Application.Dto.Mails;
 using Cmail.Mailbox.Application.Services.Mails;
+using Cmail.Mailbox.Application.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +27,96 @@ public class EmailController : ControllerBase
     {
         try
         {
-            var result = await _service.GetAllEmailsAsync();
+            var result = await _service.FetchAllEmailsAsync();
+
+            return Ok(result);
+        }
+        catch (BadRequestException brex)
+        {
+            _logger.LogWarning(brex, brex.Message);
+            return BadRequest(new
+            {
+                brex.Message
+            });
+        }
+        catch (NotFoundException nfx)
+        {
+            _logger.LogWarning(nfx, nfx.Message);
+            return NotFound(new { nfx.Source, nfx.Message });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, ex.Message);
+            return StatusCode(417, new { ex.Message });
+        }
+    }
+
+    [HttpPost("compose-email")]
+    public async Task<IActionResult> ComposeEmail(EmailDto dto)
+    {
+        try
+        {
+            string myIP = CommonHelper.GetIPAddress(HttpContext) ?? string.Empty;
+
+            var result = await _service.ComposeEmailAsync(dto, myIP);
+
+            return Ok(result);
+        }
+        catch (BadRequestException brex)
+        {
+            _logger.LogWarning(brex, brex.Message);
+            return BadRequest(new
+            {
+                brex.Message
+            });
+        }
+        catch (NotFoundException nfx)
+        {
+            _logger.LogWarning(nfx, nfx.Message);
+            return NotFound(new { nfx.Source, nfx.Message });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, ex.Message);
+            return StatusCode(417, new { ex.Message });
+        }
+    }
+
+    [HttpPost("inbox-emails")]
+    public async Task<IActionResult> InboxMail(UserEmail userEmail)
+    {
+        try
+        {
+            var result = await _service.FetchInboxMails(userEmail.Email);
+
+            return Ok(result);
+        }
+        catch (BadRequestException brex)
+        {
+            _logger.LogWarning(brex, brex.Message);
+            return BadRequest(new
+            {
+                brex.Message
+            });
+        }
+        catch (NotFoundException nfx)
+        {
+            _logger.LogWarning(nfx, nfx.Message);
+            return NotFound(new { nfx.Source, nfx.Message });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, ex.Message);
+            return StatusCode(417, new { ex.Message });
+        }
+    }
+
+    [HttpPost("sender-emails")]
+    public async Task<IActionResult> SenderMails(UserEmail userEmail)
+    {
+        try
+        {
+            var result = await _service.FetchSenderMails(userEmail.Email);
 
             return Ok(result);
         }
