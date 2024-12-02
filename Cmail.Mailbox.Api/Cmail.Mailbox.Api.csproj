@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cmail.Mailbox.Application\Cmail.Mailbox.Application.csproj" />
+    <ProjectReference Include="..\Cmail.Mailbox.Communication\Cmail.Mailbox.Communication.csproj" />
   </ItemGroup>
 
 </Project>

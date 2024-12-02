@@ -3,8 +3,10 @@ using Cgmail.Common.Helpers;
 using Cmail.Mailbox.Application.Dto.Mails;
 using Cmail.Mailbox.Application.Services.Mails;
 using Cmail.Mailbox.Application.ViewModels;
+using Cmail.Mailbox.Communication.Hubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Cmail.Mailbox.Api.Controllers.MailBox;
 
@@ -59,6 +61,10 @@ public class EmailController : ControllerBase
             string myIP = CommonHelper.GetIPAddress(HttpContext) ?? string.Empty;
 
             var result = await _service.ComposeEmailAsync(dto, myIP);
+
+            var hubContext = HttpContext.RequestServices.GetService<IHubContext<EmailHub>>();
+
+            await hubContext!.Clients.All.SendAsync("ReceiveEmailNotification", "Email successfully sent to recipients.");
 
             return Ok(result);
         }

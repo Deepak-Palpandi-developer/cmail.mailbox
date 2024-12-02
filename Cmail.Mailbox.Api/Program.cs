@@ -3,6 +3,7 @@ using Cgmail.Common.Extensions;
 using Cgmail.Common.Middlewares;
 using Cgmail.Common.Model;
 using Cmail.Mailbox.Application;
+using Cmail.Mailbox.Communication.Hubs;
 using Cmail.Mailbox.Dmain.Data;
 using System.Reflection;
 using System.Text;
@@ -35,6 +36,8 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 app.MigrateDatabase<MailboxContext>();
@@ -53,7 +56,12 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.UseMiddleware<EncryptionMiddleware>();
+app.MapHub<EmailHub>("/emailHub");
+
+app.UseWhen(
+    context => !context.Request.Path.StartsWithSegments("/emailHub"),
+    appBuilder => appBuilder.UseMiddleware<EncryptionMiddleware>()
+);
 
 app.MapControllers();
 
